@@ -98,28 +98,35 @@ In dit gedeelte zullen de testgevallen omschreven worden. Alle testgevallen moet
 
 #### #1 Reserveringsprijs
 
-Verifieer de prijs van een reservering
+Verifieer de prijs van een reservering.
 
-| Stap | Invoer | Actie | Verwachte Uitvoer |
-| 1    | `May 20 2022, Jun 20 2022, 4, true` | `calculatePrice()` | `868,00` |
+| Stap | Invoer                              | Actie              | Verwachte Uitvoer |
+| ---- | ----------------------------------- | ------------------ | ----------------- |
+| 1    | `May 20 2022, Jun 20 2022, 4, true` | `calculatePrice()` | `868,00`          |
 
-#### #2 Gemiddelde reserveringsduur
+#### #2 Gemiddelde Reserveringsduur
 
-Verifieer de prijs van een reservering
+Verifieer de gemiddelde reserveringsduur.
 
-| Stap | Invoer | Actie | Verwachte Uitvoer |
-| 1    | `May 20 2022, Jun 20 2022, 4, true` | `calculatePrice()` | `868,00` |
+| Stap | Invoer                        | Actie                              | Verwachte Uitvoer |
+| ---- | ----------------------------- | ---------------------------------- | ----------------- |
+| 1    |                               | Reserveringen ophalen uit database |                   |
+| 2    | Reserveringsduur uit database | Gemiddelde berekenen               | `19`              |
 
-#### #3 Totaal aantal personen
+#### #3 Totaal Aantal Personen
 
-Verifieer de prijs van een reservering
+Verifieer het aantal personen op de camping.
 
-| Stap | Invoer | Actie | Verwachte Uitvoer |
-| 1    | `May 20 2022, Jun 20 2022, 4, true` | `calculatePrice()` | `868,00` |
+| Stap | Invoer                       | Actie                              | Verwachte Uitvoer |
+| ---- | ---------------------------- | ---------------------------------- | ----------------- |
+| 1    |                              | Reserveringen ophalen uit database |                   |
+| 2    | Aantal personen uit database | Aantal personen optellen           | `6`               |
 
-#### #4 Totale inkomsten
+#### #4 Totale Inkomsten
 
-Verifieer de prijs van een reservering
+Verifieer de totale inkomsten
 
-| Stap | Invoer | Actie | Verwachte Uitvoer |
-| 1    | `May 20 2022, Jun 20 2022, 4, true` | `calculatePrice()` | `868,00` |
+| Stap | Invoer                           | Actie                              | Verwachte Uitvoer |
+| ---- | -------------------------------- | ---------------------------------- | ----------------- |
+| 1    |                                  | Reserveringen ophalen uit database |                   |
+| 2    | Reserveringsprijzen uit database | Prijzen optellen                   | `1028,00`         |
