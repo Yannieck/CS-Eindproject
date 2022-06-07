@@ -59,6 +59,11 @@ In de onderstaande tabel zal de uitvoer beschreven worden.
 
 ![Klassendiagram](ClassDiagram.png "Eerste versie van het klassendiagram")
 
+## Mockup
+
+![Mockup](Mockup.png "Eerste versie van de mockup")
+
+
 ## Testplan
 
 In dit onderdeel zal beschreven worden hoe de aplicatie getest gaat worden.
@@ -110,8 +115,7 @@ Verifieer de gemiddelde reserveringsduur.
 
 | Stap | Invoer                        | Actie                              | Verwachte Uitvoer |
 | ---- | ----------------------------- | ---------------------------------- | ----------------- |
-| 1    |                               | Reserveringen ophalen uit database |                   |
-| 2    | Reserveringsduur uit database | Gemiddelde berekenen               | `19`              |
+| 1    |                               | Reserveringen ophalen uit database |             s              | `19`              |
 
 #### #3 Totaal Aantal Personen
 
