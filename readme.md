@@ -115,7 +115,7 @@ Verifieer de gemiddelde reserveringsduur.
 
 | Stap | Invoer                        | Actie                              | Verwachte Uitvoer |
 | ---- | ----------------------------- | ---------------------------------- | ----------------- |
-| 1    |                               | Reserveringen ophalen uit database |             s              | `19`              |
+| 1    |                               | Reserveringen ophalen uit database | `19`              |
 
 #### #3 Totaal Aantal Personen
 
@@ -134,3 +134,10 @@ Verifieer de totale inkomsten
 | ---- | -------------------------------- | ---------------------------------- | ----------------- |
 | 1    |                                  | Reserveringen ophalen uit database |                   |
 | 2    | Reserveringsprijzen uit database | Prijzen optellen                   | `1028,00`         |
+
+### Gebruiksertestplan
+| Invoer |               |               |                 |        | Uitvoer           |                        |                 |                  |
+| ------ | ------------- | ------------- | --------------- | ------ | ----------------- | ---------------------- | --------------- | ---------------- |
+| Step   | begindatum    | Eindatum      | Aantal personen | Auto   | Reserveringsprijs | Gemm. Reserveringsduur | Totaal personen | Totale inkomsten |
+| 1      | `May 20 2022` | `Jun 20 2022` | `4`             | `true` | `868,00`          | `31`                   | `4`             | `858,00`         |
+| 2      | `Jun 12 2022` | `Jun 19 2022` | `2`             | `false`| `160,00`          | `19`                   | `6`             | `1028,00`        |
