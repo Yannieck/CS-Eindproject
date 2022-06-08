@@ -1,0 +1,11 @@
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\bin\Debug\CSEindproject.exe.config
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\bin\Debug\CSEindproject.exe
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\bin\Debug\CSEindproject.pdb
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.csproj.AssemblyReference.cache
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.csproj.SuggestedBindingRedirects.cache
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.Form1.resources
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.Properties.Resources.resources
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.csproj.GenerateResource.cache
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.csproj.CoreCompileInputs.cache
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.exe
+C:\Users\Yanni\Documents\GitHub\Repos\CS-Eindproject\CSEindproject\CSEindproject\obj\Debug\CSEindproject.pdb
