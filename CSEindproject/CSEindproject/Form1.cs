@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Globalization;
 using System.Data.SqlClient;
 
 namespace CSEindproject
@@ -36,6 +35,7 @@ namespace CSEindproject
                     loadCamping();
                     break;
                 case "ReservePage":
+                    UpdatePrice();
                     break;
                 case "PlacePage":
                     loadPlace();
@@ -52,13 +52,39 @@ namespace CSEindproject
         //Load in the camping data
         private void loadCamping()
         {
-            Console.WriteLine("Loaded camping page");
+            loadCampingFromDB();
 
             CampingNameLabel.Text = camping.name;
             AdressLabelValue.Text = camping.adress;
             PeopleAmtLabelValue.Text = camping.totPeople.ToString();
-            AvgTimespanLabelValue.Text = camping.avgDays.ToString();
-            TotIncomeLabelValue.Text = camping.totalIncome.ToString("C", CultureInfo.CurrentCulture);
+            AvgTimespanLabelValue.Text = camping.getAvgDays().ToString();
+            TotIncomeLabelValue.Text = convertToMoney(camping.totalIncome);
+
+            Console.WriteLine("Loaded camping page");
+        }
+
+        private void loadCampingFromDB()
+        {
+            string query = @"SELECT startDate, endDate, people, car, placeId
+                           FROM Reservations;";
+            DataSet result = new DataSet();
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+            adapter.Fill(result);
+
+            foreach (DataRow dr in result.Tables[0].Rows)
+            {
+                Place place = new Place((string)dr[4], GetPriceFromPlace((string)dr[4]));
+                Reservation reservation = new Reservation((DateTime)dr[0], (DateTime)dr[1], (int)dr[2], (bool)dr[3], place);
+                camping.addReservation(reservation);
+            }
+        }
+
+        private string convertToMoney(float amt)
+        {
+            return "€ " + string.Format("{0:0.00}", amt);
         }
 
         //////////////////
@@ -71,14 +97,15 @@ namespace CSEindproject
             DateTime endDate = EndDatePicker.Value;
             int peopleAmount = (int)PeopleAmountField.Value;
             bool hasCar = HasCarCheckbox.Checked;
-            Place place = new Place(ReservationPlaceInput.Text);
+            string placeStr = ReservationPlaceInput.Text;
 
             if (endDate > startDate)
             {
                 if (peopleAmount > 0)
                 {
-                    if (place != Place.empty)
+                    if (placeStr != string.Empty)
                     {
+                        Place place = new Place(placeStr, GetPriceFromPlace(placeStr));
                         return new Reservation(startDate, endDate, peopleAmount, hasCar, place);
                     }
                 }
@@ -86,15 +113,38 @@ namespace CSEindproject
             return null;
         }
 
-        private void addReservationToDB()
+        private void addReservationToDB(Reservation reservation)
         {
+            string query = @"INSERT INTO Reservations(startDate, endDate, people, car, placeId) VALUES(@startDate, @endDate, @people, @car, @placeId)";
 
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.Add(new SqlParameter("@startDate", reservation.startDate));
+            cmd.Parameters.Add(new SqlParameter("@endDate", reservation.endDate));
+            cmd.Parameters.Add(new SqlParameter("@people", reservation.amtPeople));
+            cmd.Parameters.Add(new SqlParameter("@car", reservation.car));
+            cmd.Parameters.Add(new SqlParameter("@placeId", reservation.place.id));
+            cmd.ExecuteNonQuery();
+            Console.WriteLine("Saved reservation to DB");
         }
 
-        private void UpdatePrice(object sender, EventArgs e)
+        private void UpdatePrice_Event(object sender, EventArgs e)
+        {
+            UpdatePrice();
+        }
+
+        private void UpdatePrice()
         {
             Reservation reservation = ReadReservation();
-            ReservationPriceLabel.Text = reservation.calculatePrice().ToString("C", CultureInfo.CurrentCulture);
+            if(reservation != null)
+            {
+                ReservationPriceLabel.Text = convertToMoney(reservation.calculatePrice());
+            } else
+            {
+                ReservationPriceLabel.Text = "Please fill in all fields";
+            }
         }
 
         private void ReserveBtn_Click(object sender, EventArgs e)
@@ -121,6 +171,7 @@ namespace CSEindproject
                     {
                         MessageBox.Show("Added Reservation");
                         camping.addReservation(reservation);
+                        addReservationToDB(reservation);
                     }
                 }
             }
@@ -149,7 +200,7 @@ namespace CSEindproject
             foreach (DataRow dr in result.Tables[0].Rows)
             {
                 float price = float.Parse(dr[1].ToString());
-                PlaceListLabel.Text += dr[0].ToString() + ": " + price.ToString("C", CultureInfo.CurrentCulture) + "\n";
+                PlaceListLabel.Text += dr[0].ToString() + ": " + convertToMoney(price) + "\n";
             }
         }
 
@@ -189,6 +240,45 @@ namespace CSEindproject
                 MessageBox.Show("Invalid values");
             }
         }
+
+        private float GetPriceFromPlace(string placeId)
+        {
+            string query = @"SELECT Place.price
+                           FROM Place
+                           WHERE Place.id = @id;";
+
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.Add(new SqlParameter("@id", placeId));
+            var result = cmd.ExecuteScalar();
+            return float.Parse(result.ToString());
+        }
+
+        private void CamingStrip_Click(object sender, EventArgs e)
+        {
+            TabControl.SelectedTab = TabControl.TabPages["CampingPage"];
+        }
+
+        private void ReservationStrip_Click(object sender, EventArgs e)
+        {
+            TabControl.SelectedTab = TabControl.TabPages["ReservePage"];
+        }
+
+        private void placesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TabControl.SelectedTab = TabControl.TabPages["PlacePage"];
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 
     /////////////
@@ -200,7 +290,7 @@ namespace CSEindproject
         public string name;
         public string adress;
         public float totalIncome;
-        public int avgDays;
+        public int totDays;
         public int totPeople;
         public List<Reservation> reservations;
 
@@ -209,7 +299,7 @@ namespace CSEindproject
             this.name = name;
             this.adress = adress;
             this.totalIncome = 0;
-            this.avgDays = 0;
+            this.totDays = 0;
             this.totPeople = 0;
             this.reservations = new List<Reservation>();
         }
@@ -218,9 +308,17 @@ namespace CSEindproject
         {
             this.reservations.Add(reservation);
 
-            this.avgDays += (reservation.endDate.Date - reservation.startDate.Date).Days;
+            this.totDays += (reservation.endDate.Date - reservation.startDate.Date).Days;
             this.totPeople += reservation.amtPeople;
             this.totalIncome += reservation.calculatePrice();
+        }
+
+        public int getAvgDays()
+        {
+            if (reservations.Count > 0)
+                return totDays / reservations.Count;
+            else
+                return 0;
         }
     }
 

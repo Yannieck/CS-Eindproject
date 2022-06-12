@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.CampingPage = new System.Windows.Forms.TabPage();
             this.TotIncomeLabelValue = new System.Windows.Forms.Label();
@@ -65,6 +66,12 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CamingStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.ReservationStrip = new System.Windows.Forms.ToolStripMenuItem();
+            this.placesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabControl.SuspendLayout();
             this.CampingPage.SuspendLayout();
             this.ReservePage.SuspendLayout();
@@ -72,6 +79,7 @@
             this.PlacePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PlacePriceField)).BeginInit();
             this.panel1.SuspendLayout();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControl
@@ -245,7 +253,7 @@
             this.ReservationPlaceInput.Name = "ReservationPlaceInput";
             this.ReservationPlaceInput.Size = new System.Drawing.Size(200, 22);
             this.ReservationPlaceInput.TabIndex = 11;
-            this.ReservationPlaceInput.TextChanged += new System.EventHandler(this.UpdatePrice);
+            this.ReservationPlaceInput.TextChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
             // HasCarCheckbox
             // 
@@ -256,7 +264,7 @@
             this.HasCarCheckbox.TabIndex = 10;
             this.HasCarCheckbox.Text = "checkBox1";
             this.HasCarCheckbox.UseVisualStyleBackColor = true;
-            this.HasCarCheckbox.CheckedChanged += new System.EventHandler(this.UpdatePrice);
+            this.HasCarCheckbox.CheckedChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
             // PeopleAmountField
             // 
@@ -264,7 +272,7 @@
             this.PeopleAmountField.Name = "PeopleAmountField";
             this.PeopleAmountField.Size = new System.Drawing.Size(200, 22);
             this.PeopleAmountField.TabIndex = 9;
-            this.PeopleAmountField.ValueChanged += new System.EventHandler(this.UpdatePrice);
+            this.PeopleAmountField.ValueChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
             // EndDatePicker
             // 
@@ -272,7 +280,7 @@
             this.EndDatePicker.Name = "EndDatePicker";
             this.EndDatePicker.Size = new System.Drawing.Size(200, 22);
             this.EndDatePicker.TabIndex = 8;
-            this.EndDatePicker.ValueChanged += new System.EventHandler(this.UpdatePrice);
+            this.EndDatePicker.ValueChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
             // StartDatePicker
             // 
@@ -280,7 +288,7 @@
             this.StartDatePicker.Name = "StartDatePicker";
             this.StartDatePicker.Size = new System.Drawing.Size(200, 22);
             this.StartDatePicker.TabIndex = 7;
-            this.StartDatePicker.ValueChanged += new System.EventHandler(this.UpdatePrice);
+            this.StartDatePicker.ValueChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
             // label15
             // 
@@ -298,9 +306,9 @@
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(31, 223);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(68, 20);
+            this.label14.Size = new System.Drawing.Size(75, 20);
             this.label14.TabIndex = 5;
-            this.label14.Text = "Plaats:";
+            this.label14.Text = "Plaats:*";
             // 
             // label13
             // 
@@ -318,9 +326,9 @@
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(31, 155);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(151, 20);
+            this.label12.Size = new System.Drawing.Size(158, 20);
             this.label12.TabIndex = 3;
-            this.label12.Text = "Aantal personen:";
+            this.label12.Text = "Aantal personen:*";
             // 
             // label11
             // 
@@ -328,9 +336,9 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(31, 122);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(103, 20);
+            this.label11.Size = new System.Drawing.Size(110, 20);
             this.label11.TabIndex = 2;
-            this.label11.Text = "Einddatum:";
+            this.label11.Text = "Einddatum:*";
             // 
             // label10
             // 
@@ -338,9 +346,9 @@
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(31, 91);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(107, 20);
+            this.label10.Size = new System.Drawing.Size(114, 20);
             this.label10.TabIndex = 1;
-            this.label10.Text = "Startdatum:";
+            this.label10.Text = "Startdatum:*";
             // 
             // label9
             // 
@@ -455,11 +463,59 @@
             this.label17.TabIndex = 0;
             this.label17.Text = "Plaatsen";
             // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CamingStrip,
+            this.ReservationStrip,
+            this.placesToolStripMenuItem,
+            this.aboutToolStripMenuItem,
+            this.closeToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(162, 124);
+            // 
+            // CamingStrip
+            // 
+            this.CamingStrip.Name = "CamingStrip";
+            this.CamingStrip.Size = new System.Drawing.Size(161, 24);
+            this.CamingStrip.Text = "Camping";
+            this.CamingStrip.Click += new System.EventHandler(this.CamingStrip_Click);
+            // 
+            // ReservationStrip
+            // 
+            this.ReservationStrip.Name = "ReservationStrip";
+            this.ReservationStrip.Size = new System.Drawing.Size(161, 24);
+            this.ReservationStrip.Text = "Reservations";
+            this.ReservationStrip.Click += new System.EventHandler(this.ReservationStrip_Click);
+            // 
+            // placesToolStripMenuItem
+            // 
+            this.placesToolStripMenuItem.Name = "placesToolStripMenuItem";
+            this.placesToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.placesToolStripMenuItem.Text = "Places";
+            this.placesToolStripMenuItem.Click += new System.EventHandler(this.placesToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 515);
+            this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.TabControl);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -474,6 +530,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PlacePriceField)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -517,6 +574,12 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem CamingStrip;
+        private System.Windows.Forms.ToolStripMenuItem ReservationStrip;
+        private System.Windows.Forms.ToolStripMenuItem placesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
     }
 }
 
