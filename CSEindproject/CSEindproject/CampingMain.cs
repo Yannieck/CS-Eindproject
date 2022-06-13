@@ -89,8 +89,6 @@ namespace CSEindproject
             PeopleAmtLabelValue.Text = camping.totPeople.ToString();
             AvgTimespanLabelValue.Text = camping.getAvgDays().ToString();
             TotIncomeLabelValue.Text = convertToMoney(camping.totalIncome);
-
-            Console.WriteLine("Loaded camping page");
         }
 
         private void loadCampingFromDB()
@@ -123,7 +121,6 @@ namespace CSEindproject
 
         private Reservation ReadReservation()
         {
-            Console.WriteLine("read");
             DateTime startDate = StartDatePicker.Value;
             DateTime endDate = EndDatePicker.Value;
             int peopleAmount = (int)PeopleAmountField.Value;
@@ -158,7 +155,6 @@ namespace CSEindproject
             cmd.Parameters.Add(new SqlParameter("@car", reservation.car));
             cmd.Parameters.Add(new SqlParameter("@placeId", reservation.place.id));
             cmd.ExecuteNonQuery();
-            Console.WriteLine("Saved reservation to DB");
         }
 
         private void UpdatePrice_Event(object sender, EventArgs e)
@@ -168,7 +164,6 @@ namespace CSEindproject
 
         private void UpdatePrice()
         {
-            //Console.WriteLine(PlaceSelectBox.SelectedValue.ToString());
             Reservation reservation = ReadReservation();
             if (reservation != null)
             {
@@ -209,8 +204,6 @@ namespace CSEindproject
 
         private void ReserveBtn_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Added reservation");
-
             Reservation reservation = ReadReservation();
 
             if (reservation != null)
@@ -243,8 +236,6 @@ namespace CSEindproject
 
         private void loadPlace()
         {
-            Console.WriteLine("Loaded Place page");
-
             PlaceListLabel.Text = "";
 
             string query = @"SELECT Place.id, Place.price
