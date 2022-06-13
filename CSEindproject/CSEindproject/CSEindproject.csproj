@@ -64,6 +64,9 @@
     <Compile Include="CampingLoad.Designer.cs">
       <DependentUpon>CampingLoad.cs</DependentUpon>
     </Compile>
+    <Compile Include="Camping.cs" />
+    <Compile Include="Place.cs" />
+    <Compile Include="Reservation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutBox.resx">
