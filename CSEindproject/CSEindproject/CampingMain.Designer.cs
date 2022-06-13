@@ -66,7 +66,6 @@
             this.PlaceListLabel = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.CamingStrip = new System.Windows.Forms.ToolStripMenuItem();
             this.ReservationStrip = new System.Windows.Forms.ToolStripMenuItem();
@@ -263,9 +262,8 @@
             this.HasCarCheckbox.AutoSize = true;
             this.HasCarCheckbox.Location = new System.Drawing.Point(221, 189);
             this.HasCarCheckbox.Name = "HasCarCheckbox";
-            this.HasCarCheckbox.Size = new System.Drawing.Size(95, 20);
+            this.HasCarCheckbox.Size = new System.Drawing.Size(18, 17);
             this.HasCarCheckbox.TabIndex = 10;
-            this.HasCarCheckbox.Text = "checkBox1";
             this.HasCarCheckbox.UseVisualStyleBackColor = true;
             this.HasCarCheckbox.CheckedChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
@@ -279,6 +277,7 @@
             // 
             // EndDatePicker
             // 
+            this.EndDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.EndDatePicker.Location = new System.Drawing.Point(221, 122);
             this.EndDatePicker.Name = "EndDatePicker";
             this.EndDatePicker.Size = new System.Drawing.Size(200, 22);
@@ -287,6 +286,7 @@
             // 
             // StartDatePicker
             // 
+            this.StartDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.StartDatePicker.Location = new System.Drawing.Point(221, 91);
             this.StartDatePicker.Name = "StartDatePicker";
             this.StartDatePicker.Size = new System.Drawing.Size(200, 22);
@@ -525,12 +525,14 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(657, 515);
             this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.TabControl);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CampingMain";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.CampingMain_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.TabControl.ResumeLayout(false);
             this.CampingPage.ResumeLayout(false);
@@ -585,7 +587,6 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem CamingStrip;
         private System.Windows.Forms.ToolStripMenuItem ReservationStrip;
