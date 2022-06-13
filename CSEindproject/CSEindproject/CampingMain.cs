@@ -1,4 +1,14 @@
-﻿using System;
+﻿/// <summary>
+/// 
+/// Naam: Yannieck Blaauw
+/// Datum: 13-6-22
+/// Opdracht: 4 (Camping)
+///     Maak een programma voor een camping, waarbij je reserveringen kan plaatsen
+/// Beg. Docent: Rob Loves
+/// 
+/// </summary>
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,22 +18,36 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace CSEindproject
 {
-    public partial class Form1 : Form
+    public partial class CampingMain : Form
     {
         Camping camping;
 
         //String to connect to DB
         string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CSEindproject;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-        public Form1()
+        public CampingMain()
         {
+            Thread thread = new Thread(new ThreadStart(startLoading));
+            thread.Start();
+            Thread.Sleep(1000);
+            thread.Abort();
+
             InitializeComponent();
             //Make a new camping
             camping = new Camping("Test naam", "ergens");
             loadCamping();
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        { 
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                hideApp();
+            }
         }
 
         //Load the data according to which page is selected
@@ -35,6 +59,7 @@ namespace CSEindproject
                     loadCamping();
                     break;
                 case "ReservePage":
+                    LoadSelectBox();
                     UpdatePrice();
                     break;
                 case "PlacePage":
@@ -43,6 +68,11 @@ namespace CSEindproject
                 default:
                     break;
             }
+        }
+
+        private void startLoading()
+        {
+            Application.Run(new CampingLoading());
         }
 
         /////////////
@@ -93,21 +123,22 @@ namespace CSEindproject
 
         private Reservation ReadReservation()
         {
+            Console.WriteLine("read");
             DateTime startDate = StartDatePicker.Value;
             DateTime endDate = EndDatePicker.Value;
             int peopleAmount = (int)PeopleAmountField.Value;
             bool hasCar = HasCarCheckbox.Checked;
-            string placeStr = ReservationPlaceInput.Text;
+
+            string placeName = ((KeyValuePair<string, string>)PlaceSelectBox.SelectedItem).Key;
+            string placePrice = ((KeyValuePair<string, string>)PlaceSelectBox.SelectedItem).Value;
+
+            Place place = new Place(placeName, float.Parse(placePrice));
 
             if (endDate > startDate)
             {
                 if (peopleAmount > 0)
                 {
-                    if (placeStr != string.Empty)
-                    {
-                        Place place = new Place(placeStr, GetPriceFromPlace(placeStr));
-                        return new Reservation(startDate, endDate, peopleAmount, hasCar, place);
-                    }
+                    return new Reservation(startDate, endDate, peopleAmount, hasCar, place);
                 }
             }
             return null;
@@ -137,14 +168,43 @@ namespace CSEindproject
 
         private void UpdatePrice()
         {
+            //Console.WriteLine(PlaceSelectBox.SelectedValue.ToString());
             Reservation reservation = ReadReservation();
-            if(reservation != null)
+            if (reservation != null)
             {
                 ReservationPriceLabel.Text = convertToMoney(reservation.calculatePrice());
-            } else
+            }
+            else
             {
                 ReservationPriceLabel.Text = "Please fill in all fields";
             }
+        }
+
+        private void LoadSelectBox()
+        {
+            string query = @"SELECT Place.id, Place.price
+                           FROM Place;";
+
+            DataSet result = new DataSet();
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+            adapter.Fill(result);
+
+            Dictionary<string, string> comboSource = new Dictionary<string, string>();
+
+            foreach (DataRow dr in result.Tables[0].Rows)
+            {
+                string price = dr[1].ToString();
+                string display = dr[0].ToString();
+
+                comboSource.Add(display, price);
+            }
+
+            PlaceSelectBox.DataSource = new BindingSource(comboSource, null);
+            PlaceSelectBox.DisplayMember = "Key";
+            PlaceSelectBox.ValueMember = "Value";
         }
 
         private void ReserveBtn_Click(object sender, EventArgs e)
@@ -206,7 +266,7 @@ namespace CSEindproject
 
         private void AddPlace(object sender, EventArgs e)
         {
-            if (PlaceNameField.Text != String.Empty && PlacePriceField.Value > 0)
+            if (PlaceNameField.Text != string.Empty && PlacePriceField.Value > 0)
             {
                 string query = "INSERT INTO Place(id, price) VALUES(@id, @price)";
 
@@ -258,26 +318,49 @@ namespace CSEindproject
 
         private void CamingStrip_Click(object sender, EventArgs e)
         {
+            showApp();
             TabControl.SelectedTab = TabControl.TabPages["CampingPage"];
         }
 
         private void ReservationStrip_Click(object sender, EventArgs e)
         {
+            showApp();
             TabControl.SelectedTab = TabControl.TabPages["ReservePage"];
         }
 
         private void placesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            showApp();
             TabControl.SelectedTab = TabControl.TabPages["PlacePage"];
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AboutBox aboutBox = new AboutBox();
+            aboutBox.Show();
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            showApp();
+        }
+
+        private void showApp()
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+            notifyIcon.Visible = false;
+        }
+
+        private void hideApp()
+        {
+            Hide();
+            notifyIcon.Visible = true;
         }
     }
 
@@ -370,6 +453,17 @@ namespace CSEindproject
         {
             this.id = id;
             this.price = price;
+        }
+    }
+
+    public class ComboboxItem
+    {
+        public string Text { get; set; }
+        public object Value { get; set; }
+
+        public override string ToString()
+        {
+            return Text;
         }
     }
 }

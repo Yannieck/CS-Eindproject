@@ -1,6 +1,6 @@
 ﻿namespace CSEindproject
 {
-    partial class Form1
+    partial class CampingMain
     {
         /// <summary>
         /// Required designer variable.
@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CampingMain));
             this.TabControl = new System.Windows.Forms.TabControl();
             this.CampingPage = new System.Windows.Forms.TabPage();
             this.TotIncomeLabelValue = new System.Windows.Forms.Label();
@@ -41,9 +42,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.CampingNameLabel = new System.Windows.Forms.Label();
             this.ReservePage = new System.Windows.Forms.TabPage();
+            this.PlaceSelectBox = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
             this.ReservationPriceLabel = new System.Windows.Forms.Label();
-            this.ReservationPlaceInput = new System.Windows.Forms.TextBox();
             this.HasCarCheckbox = new System.Windows.Forms.CheckBox();
             this.PeopleAmountField = new System.Windows.Forms.NumericUpDown();
             this.EndDatePicker = new System.Windows.Forms.DateTimePicker();
@@ -72,6 +73,7 @@
             this.placesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.TabControl.SuspendLayout();
             this.CampingPage.SuspendLayout();
             this.ReservePage.SuspendLayout();
@@ -205,9 +207,9 @@
             // 
             // ReservePage
             // 
+            this.ReservePage.Controls.Add(this.PlaceSelectBox);
             this.ReservePage.Controls.Add(this.button2);
             this.ReservePage.Controls.Add(this.ReservationPriceLabel);
-            this.ReservePage.Controls.Add(this.ReservationPlaceInput);
             this.ReservePage.Controls.Add(this.HasCarCheckbox);
             this.ReservePage.Controls.Add(this.PeopleAmountField);
             this.ReservePage.Controls.Add(this.EndDatePicker);
@@ -226,6 +228,15 @@
             this.ReservePage.TabIndex = 1;
             this.ReservePage.Text = "Reserveren";
             this.ReservePage.UseVisualStyleBackColor = true;
+            // 
+            // PlaceSelectBox
+            // 
+            this.PlaceSelectBox.FormattingEnabled = true;
+            this.PlaceSelectBox.Location = new System.Drawing.Point(221, 223);
+            this.PlaceSelectBox.Name = "PlaceSelectBox";
+            this.PlaceSelectBox.Size = new System.Drawing.Size(200, 24);
+            this.PlaceSelectBox.TabIndex = 14;
+            this.PlaceSelectBox.SelectedValueChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
             // button2
             // 
@@ -246,14 +257,6 @@
             this.ReservationPriceLabel.Size = new System.Drawing.Size(49, 20);
             this.ReservationPriceLabel.TabIndex = 12;
             this.ReservationPriceLabel.Text = "€5,00";
-            // 
-            // ReservationPlaceInput
-            // 
-            this.ReservationPlaceInput.Location = new System.Drawing.Point(221, 223);
-            this.ReservationPlaceInput.Name = "ReservationPlaceInput";
-            this.ReservationPlaceInput.Size = new System.Drawing.Size(200, 22);
-            this.ReservationPlaceInput.TabIndex = 11;
-            this.ReservationPlaceInput.TextChanged += new System.EventHandler(this.UpdatePrice_Event);
             // 
             // HasCarCheckbox
             // 
@@ -510,15 +513,25 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // Form1
+            // notifyIcon
+            // 
+            this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "notifyIcon1";
+            this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
+            // 
+            // CampingMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 515);
             this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.TabControl);
-            this.Name = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "CampingMain";
             this.Text = "Form1";
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.TabControl.ResumeLayout(false);
             this.CampingPage.ResumeLayout(false);
             this.CampingPage.PerformLayout();
@@ -558,7 +571,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label ReservationPriceLabel;
-        private System.Windows.Forms.TextBox ReservationPlaceInput;
         private System.Windows.Forms.CheckBox HasCarCheckbox;
         private System.Windows.Forms.NumericUpDown PeopleAmountField;
         private System.Windows.Forms.DateTimePicker EndDatePicker;
@@ -580,6 +592,8 @@
         private System.Windows.Forms.ToolStripMenuItem placesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ComboBox PlaceSelectBox;
     }
 }
 
